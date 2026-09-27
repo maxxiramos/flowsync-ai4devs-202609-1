@@ -20,9 +20,58 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ---
 
-## Prompt 1
+## En el repo con harness
 
-**Modelo:** Opus 1M xHigh
+### Prompt 1
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+/init in spanish
+```
+
+**Qué salió:** tuve que insistir cerrando Claude y reabriendolo. Por lo cual el promt fue ejecutado 2 veces. La 1º creo la carpeta `.claude`, en la segunda creó el archivo `CLAUDE.md`.
+
+### Prompt 2
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+claude mcp add --transport http --scope project atlassian https://mcp.atlassian.com/v1/mcp/authv2
+```
+
+**Qué salió:** funcionó a la primera, creo el archivo .mcp.json con la configuracion mcp de Atlassian.
+
+### Prompt 3
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Configura un hook que corra el formateador del frontend cada vez que se edite un archivo.
+```
+
+**Qué salió:** creo el archivo `settings.json`.
+
+### Prompt 4
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+/priority-ticket
+```
+
+---
+
+
+## En el repo sin harness
+
+### Prompt 1
+
+**Modelo:** Opus 5.5
 **Herramienta:** Claude Code
 
 ```
@@ -33,3 +82,39 @@ para que se sepa dónde empieza y dónde acaba.
 ```
 
 **Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+
+
+### Prompt 1
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Busca en Jira el ticket de mayor prioridad asignado a mí, resume sus criterios de aceptación, y entra en plan mode para implementarlo.
+```
+
+**Qué salió:** no funcionó a la primera, ya que no pudo conectarse a jira. Tuve que al igual del en vivo, copiar el archivo `.mcp.json`.
+.
+
+### Prompt 2
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Busca en Jira el ticket de mayor prioridad asignado a mí, resume sus criterios de aceptación, y entra en plan mode para implementarlo.
+```
+
+**Qué salió:** Ofrecio un plan, pero advirtió que no tenia un harness amando que este directoria tenia la copia limpia. Igualmente mande a ejecutar el plan.
+
+### Prompt 3
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Sí, implementalo.
+```
+
+**Qué salió:** Ofrecio un plan, pero advirtió que no tenia un harness amando que este directoria tenia la copia limpia. Igualmente mande a ejecutar el plan.
+
