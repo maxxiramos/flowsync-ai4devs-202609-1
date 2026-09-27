@@ -61,11 +61,13 @@ type RequestOptions = {
   method?: 'GET' | 'POST'
   body?: unknown
   token?: string | null
+  /** Most endpoints wrap their payload in `{ data }`; logout does not. */
+  wrapped?: boolean
 }
 
 async function apiFetch<T>(
   path: string,
-  { method = 'GET', body, token }: RequestOptions = {},
+  { method = 'GET', body, token, wrapped = true }: RequestOptions = {},
 ): Promise<T> {
   const headers: Record<string, string> = { Accept: 'application/json' }
   if (body !== undefined) headers['Content-Type'] = 'application/json'
@@ -92,7 +94,11 @@ async function apiFetch<T>(
     throw new ApiError(response.status, Array.isArray(errors) ? errors : [])
   }
 
-  return (payload as { data: T }).data
+  if (!wrapped) return payload as T
+  if (!payload || typeof payload !== 'object' || !('data' in payload)) {
+    throw new ApiError(response.status, [], 'Unexpected response from server')
+  }
+  return payload.data as T
 }
 
 export function signup(input: SignupInput) {
@@ -108,5 +114,9 @@ export function getProfile(token: string) {
 }
 
 export function logout(token: string) {
-  return apiFetch<unknown>('account/logout', { method: 'POST', token })
+  return apiFetch<{ message: string }>('account/logout', {
+    method: 'POST',
+    token,
+    wrapped: false,
+  })
 }
