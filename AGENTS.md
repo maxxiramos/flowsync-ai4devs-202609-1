@@ -1,0 +1,1 @@
+C:/Users/maxxi/Documents/Ejercicios/flowsync-ai4devs-202609-1/CLAUDE.md
