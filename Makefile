@@ -33,8 +33,8 @@ setup: install env migrate ## Deja el proyecto listo para arrancar
 	@Write-Host ''; Write-Host 'Setup completado. Arranca todo con: make start'
 
 install:
-	@if (-not (Get-Command node -ErrorAction SilentlyContinue)) { Write-Host 'Node.js no está instalado.'; exit 1 }
-	@if (-not (Get-Command npm -ErrorAction SilentlyContinue)) { Write-Host 'npm no está instalado.'; exit 1 }
+	@if (-not (Get-Command node -ErrorAction SilentlyContinue)) { Write-Host 'Node.js no esta instalado.'; exit 1 }
+	@if (-not (Get-Command npm -ErrorAction SilentlyContinue)) { Write-Host 'npm no esta instalado.'; exit 1 }
 	@Write-Host 'Instalando dependencias del backend...'
 	@Set-Location $(BACKEND); npm install; exit $$LASTEXITCODE
 	@Write-Host 'Instalando dependencias del frontend...'
@@ -59,13 +59,17 @@ migrate:
 # reciben igual que en una terminal POSIX. Además, si uno de los dos termina
 # por su cuenta (p. ej. el backend crashea al arrancar), el bucle lo detecta y
 # el `finally` mata el árbol de procesos del otro con `taskkill /T /F`, para no
-# dejar nodos huérfanos ocupando los puertos 3333 / 5173.
+# dejar nodos huérfanos ocupando los puertos 3333 / 5173. En ese caso `make
+# start` sale con código 1.
+#
+# Los textos de las recetas van sin tildes: make para Windows pasa la línea de
+# comandos en la codepage ANSI y PowerShell 5.1 las mostraría corruptas.
 start: ## Levanta backend y frontend a la vez
 	@if (-not (Test-Path '$(BACKEND)/node_modules') -or -not (Test-Path '$(FRONTEND)/node_modules')) { Write-Host 'Faltan dependencias. Ejecuta primero: make setup'; exit 1 }
 	@if (-not (Test-Path '$(BACKEND)/.env')) { Write-Host 'Falta $(BACKEND)/.env. Ejecuta primero: make setup'; exit 1 }
 	@Write-Host 'Arrancando backend (http://localhost:3333) y frontend (http://localhost:5173)...'
-	@Write-Host '   Ctrl-C para parar los dos. Si uno se cae, el otro se cierra también.'; Write-Host ''
-	@$$be = Start-Process npm.cmd -ArgumentList 'run','dev' -WorkingDirectory '$(BACKEND)' -NoNewWindow -PassThru; $$fe = Start-Process npm.cmd -ArgumentList 'run','dev' -WorkingDirectory '$(FRONTEND)' -NoNewWindow -PassThru; try { while (-not $$be.HasExited -and -not $$fe.HasExited) { Start-Sleep -Milliseconds 500 }; Write-Host ''; if ($$be.HasExited) { Write-Host 'El backend se ha parado. Cerrando el frontend.' } else { Write-Host 'El frontend se ha parado. Cerrando el backend.' } } finally { foreach ($$p in @($$be, $$fe)) { if (-not $$p.HasExited) { taskkill /T /F /PID $$p.Id *> $$null } } }
+	@Write-Host '   Ctrl-C para parar los dos. Si uno se cae, el otro se cierra tambien.'; Write-Host ''
+	@$$be = Start-Process npm.cmd -ArgumentList 'run','dev' -WorkingDirectory '$(BACKEND)' -NoNewWindow -PassThru; $$fe = Start-Process npm.cmd -ArgumentList 'run','dev' -WorkingDirectory '$(FRONTEND)' -NoNewWindow -PassThru; $$failed = $$false; try { while (-not $$be.HasExited -and -not $$fe.HasExited) { Start-Sleep -Milliseconds 500 }; $$failed = $$true; Write-Host ''; if ($$be.HasExited) { Write-Host 'El backend se ha parado. Cerrando el frontend.' } else { Write-Host 'El frontend se ha parado. Cerrando el backend.' } } finally { foreach ($$p in @($$be, $$fe)) { if (-not $$p.HasExited) { taskkill /T /F /PID $$p.Id *> $$null } } }; if ($$failed) { exit 1 }
 
 # ---------------------------------------------------------------------------
 # clean
@@ -73,6 +77,6 @@ start: ## Levanta backend y frontend a la vez
 
 clean: ## Borra node_modules y la base de datos SQLite
 	@Write-Host 'Limpiando...'
-	@Remove-Item -Recurse -Force -ErrorAction SilentlyContinue '$(BACKEND)/node_modules', '$(FRONTEND)/node_modules'; exit 0
-	@Remove-Item -Force -ErrorAction SilentlyContinue '$(BACKEND)/tmp/db.sqlite3', '$(BACKEND)/tmp/db.sqlite3-wal', '$(BACKEND)/tmp/db.sqlite3-shm'; exit 0
+	@Remove-Item -Recurse -Force -ErrorAction SilentlyContinue '$(BACKEND)/node_modules', '$(FRONTEND)/node_modules'; if ((Test-Path '$(BACKEND)/node_modules') -or (Test-Path '$(FRONTEND)/node_modules')) { Write-Host 'No se pudo borrar node_modules (sigue make start en marcha?).'; exit 1 }
+	@Remove-Item -Force -ErrorAction SilentlyContinue '$(BACKEND)/tmp/db.sqlite3', '$(BACKEND)/tmp/db.sqlite3-wal', '$(BACKEND)/tmp/db.sqlite3-shm'; if (Test-Path '$(BACKEND)/tmp/db.sqlite3') { Write-Host 'No se pudo borrar la base de datos (esta en uso?).'; exit 1 }
 	@Write-Host 'Listo. Vuelve a ejecutar: make setup'
