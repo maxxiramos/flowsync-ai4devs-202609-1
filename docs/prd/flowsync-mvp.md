@@ -1,6 +1,6 @@
 # PRD — FlowSync MVP
 
-> Base: [`alcance-mvp-CRM-borrador.md`](./alcance-mvp-CRM-borrador.md).
+> Base: [`alcance-mvp-CMR.md`](./alcance-mvp-CMR.md).
 >
 > Este documento define **qué** debe hacer el producto, no **cómo** se construye. El modelo de datos, los endpoints, los nombres internos de estados y el mecanismo de actualización se deciden en la spec de implementación. Todo lo marcado como **[SUPUESTO]** está pendiente de validar.
 
