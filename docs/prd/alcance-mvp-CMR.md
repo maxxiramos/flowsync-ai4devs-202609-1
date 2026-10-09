@@ -78,3 +78,28 @@ Una vertical fina y usable de punta a punta. Mejor una capability terminada que 
 | Sprints, estimaciones, épicas, backlog priorizado | Un equipo que los necesita no es nuestro usuario. |
 | Analítica y reporting | No hay a quién reportar. |
 | App móvil nativa | El momento de uso es en el escritorio, al empezar trabajo. Basta con la web. |
+
+---
+
+
+# Parte B: las 3 lineas
+
+1. 
+   - Cantidad de cosas propuso la IA meter dentro del alcance: 12
+   - Cantidad de cosas quedaron dentro después de tu recorte: 7
+
+2. Tres cosas que dejaste fuera, y por qué cada una. El porqué tiene una forma concreta: qué hipótesis del producto no ayuda a validar. "No da tiempo" no vale, porque no es una decisión de producto: es una excusa de calendario, y mañana deja de ser cierta.
+   1. Punto dejado fuera:
+      - Punto dejado fuera: «Sin campos obligatorios» choca con «la tarea tiene responsable, estado y fecha». Solo el título es obligatorio. Una tarea sin responsable significa «libre», y eso es justo lo que se necesita para «elegir lo siguiente sabiendo qué está libre».
+      - Porque: El Responsable es obligatorio, sino una Tarea sin Responsable no cumple el propósito. El estado "pendiente" significa que fue asignada la tarea pero ni iniciada.
+   2. Punto dejado fuera:
+      - Punto dejado fuera: El tiempo real y el resumen que espera son dos cosas distintas. El tiempo real ayuda con la lista abierta, en el momento de coger algo. El caso de «llego por la mañana» no necesita tiempo real: necesita ver qué cambió. **Filtrar por estado no lo cubre. Recomiendo ordenar por cambio reciente, que es el mínimo, y dejar «marcar lo nuevo desde mi última visita» como candidato si el mínimo no basta.**
+      - Porque: Al tener en el alcance el punto 7 "Frescura. Los cambios de otras personas aparecen en la lista abierta en 5–10 segundos, sin recargar." cubre parcialmente este punto.
+   3. Punto dejado fuera:
+      - Punto dejado fuera: La fecha de vencimiento es la pieza más cercana a Jira. Sin reportes ni lead, ¿a quién le importa? **Agrego una fecha de estimación de termino de la tarea?**
+      - Porque: La fecha de vencimiento es parte del control personal de cada persona y además es el requerimiento minimo para poder gestionar las tareas que poseen depencia.
+	
+
+3. La exclusión de la que menos seguro estás, y qué tendría que pasar para que entrara. Lo que interesa es qué dos cosas se contradecían: lo que te pedían contra lo que veías, lo barato contra lo que valida, lo que enamora contra lo que se puede sostener.
+	Exclusión de la que menos seguridad se tiene, y qué tendría que pasar para que entrara.
+		La nuemro 2.1. Lo sugerido me parecía mas intuitivo (aún que va en contra de lo "*sino una Tarea sin Responsable no cumple el propósito*"). Considero que es un requerimiento a incluir en caso de que el equipo tenga confusion en el interpretacion de una tarea libre (o posible a tomar, más puntualmente) y/o si el gestor de proyecto desea incluir tareas que todavia no sabe a quien asignar pero le sirve para dejar asentado el backlog. 
