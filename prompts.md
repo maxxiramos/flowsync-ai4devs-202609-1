@@ -22,14 +22,59 @@ Borra el ejemplo de abajo cuando escribas el primero.
 
 ## Prompt 1
 
-**Modelo:** Opus 1M xHigh
+**Modelo:** Opus 5.5
 **Herramienta:** Claude Code
 
 ```
-Este es el ejemplo. Bórralo.
-
-El prompt va aquí dentro, entero y con sus saltos de línea,
-para que se sepa dónde empieza y dónde acaba.
+Lee los scenarios de `openspec/specs/tasks/spec.md` y los tests que haya en `backend/tests/`.
+Genera una tabla de trazabilidad: cada scenario → qué prueba lo cubre → cubierto / NO cubierto. Cuenta cuántos scenarios hay en total y cuántos están cubiertos, y ponlo arriba. No cambies ningún archivo: esto es una lectura, no un arreglo.
 ```
 
-**Qué salió:** (opcional, una línea) funcionó a la primera / tuve que insistir / me inventó una ruta que no existe.
+**Qué salió:** 
+
+---
+
+## Prompt 2
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Limita la tabla de trazabilidad anterior solo al requisito «Lo que cada tarea muestra de su responsable» de `openspec/specs/tasks/spec.md`.
+Vuelve a realizar el conteo de cuántos scenarios hay en total y cuántos están cubiertos, y ponlo arriba. 
+No cambies ningún archivo: esto es una lectura, no un arreglo.
+```
+
+**Qué salió:** 
+
+---
+
+## Prompt 3
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Transcribe dicha tabla de trazabilidad al archivo `docs/verificacion/CMR.md`.
+No realices ningun Commit, ni PR. Solo crea el archivo.
+```
+
+**Qué salió:** Tuve que editarlo a mano, para agregar al columna "_Qué te faltó_".
+
+---
+
+## Prompt 4
+
+**Modelo:** Opus 5.5
+**Herramienta:** Claude Code
+
+```
+Escribe los tests de integración que faltan para el requisito «Lo que cada tarea muestra de su responsable» de `openspec/specs/tasks/spec.md`: uno por cada scenario, en `backend/tests/functional/tasks/`. Sigue el estilo de los que ya existen en `backend/tests/functional/auth/`.
+No toques nada fuera de `backend/tests/`: si algún test falla, déjalo fallando, que hoy queremos saber qué está mal, no taparlo.
+No realices ningun Commit, ni PR. Solo crea los tests.
+```
+
+**Qué salió:** 
+
+---
+
